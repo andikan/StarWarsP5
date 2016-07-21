@@ -18,6 +18,7 @@ function setup() {
 	computer = new Computer();
 	player = new Player();
 	gs = new GaussSense();
+	// gs = new GaussSense('ws://192.168.170.191:5100');
 }
 
 function draw() {
@@ -63,7 +64,6 @@ function loopOver() {
 	text("Press Space To Restart", width/3-20, height/2);
 }
 
-
 function mouseClicked() {
   switch(configuration.status) {
   	case 0:
@@ -78,7 +78,25 @@ function mouseClicked() {
   	break;
   }
 
+  // prevent default
+  return false;
+}
 
+function touchStarted() {
+	switch(configuration.status) {
+  	case 0:
+  		configuration.restart();
+  	break;
+
+  	case 1:
+  		var diffX = touchX - width/2;
+  		var diffY = touchY - height/2;
+  		player.newShot(width/2 + diffX*2, height/2 + diffY*2);
+  	break;
+
+  	case 2:
+  	break;
+  }
 
   // prevent default
   return false;
